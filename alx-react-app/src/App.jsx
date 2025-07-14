@@ -23,7 +23,7 @@ function App() {
       <UserProfile
         name="Alice Johnson"
         age={25} // Age can be a number, React will convert it to string for display
-        bio="A passionate software developer who loves coding, hiking, and exploring new technologies."
+        bio="Loves hiking and photography."
       />
 
       {/* You can add more UserProfile components with different data */}
