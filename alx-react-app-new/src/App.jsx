@@ -1,39 +1,33 @@
+ 
+import React from 'react';
+import Header from './components/Header';
+import UserProfile from './components/UserProfile';
+import MainContent from './components/MainContent';
+import Footer from './components/Footer';
 
-// src/App.jsx
 
-import React from 'react'; // Import React if you are using JSX in this file
-import WelcomeMessage from "./components/WelcomeMessage"; // Import the WelcomeMessage component
-import UserProfile from "./components/UserProfile"; // Import the newly created UserProfile component
-
-/**
- * App Component
- *
- * This is the main component of the application.
- * It renders the WelcomeMessage and UserProfile components.
- */
 function App() {
   return (
-    // Using a main div to wrap all components.
-    // Applying basic Tailwind CSS for centering and overall page styling.
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
-      {/* Render the WelcomeMessage component */}
-      <WelcomeMessage />
+    <div className="App" style={{ fontFamily: 'Inter, sans-serif', backgroundColor: '#f0f2f5', padding: '20px', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Render the UserProfile component with specific props */}
+        <Header /> 
+
       <UserProfile
         name="Alice Johnson"
-        age={25} // Age can be a number, React will convert it to string for display
+        age={25} 
         bio="Loves hiking and photography."
       />
-
-      {/* You can add more UserProfile components with different data */}
       <UserProfile
         name="Bob Williams"
         age={30}
         bio="An avid photographer and a digital artist, always looking for new inspirations."
       />
+
+      <MainContent />
+
+      <Footer />
     </div>
   );
 }
 
-export default App; // Export App as the default component for the application
+export default App;
