@@ -1,7 +1,16 @@
 
+import React from 'react'; 
+
 function Header() {
     return (
-        <header>
+        <header style={{
+            backgroundColor: 'navy',
+            color: 'white', 
+            textAlign: 'center',
+            padding: '20px', 
+            borderRadius: '8px', 
+            marginBottom: '20px' 
+        }}>
             <h1>My Favorite Cities</h1>
         </header>
     );
