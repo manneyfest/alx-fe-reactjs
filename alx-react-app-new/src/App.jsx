@@ -4,6 +4,7 @@ import Header from './components/Header';
 import UserProfile from './components/UserProfile';
 import MainContent from './components/MainContent';
 import Footer from './components/Footer';
+import Counter from './components/Counter';
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
         age={30}
         bio="An avid photographer and a digital artist, always looking for new inspirations."
       />
+
+      <Counter />
 
       <MainContent />
 
