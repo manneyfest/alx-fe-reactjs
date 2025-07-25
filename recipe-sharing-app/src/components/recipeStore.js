@@ -4,9 +4,19 @@ import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged }
 import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from 'firebase/firestore';
 
 // --- Firebase Initialization ---
-// These global variables are provided by the Canvas environment
+// These global variables are provided by the Canvas environment when running in production.
+// For local development, we provide a dummy projectId to avoid Firebase errors.
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+const firebaseConfig = typeof __firebase_config !== 'undefined'
+  ? JSON.parse(__firebase_config)
+  : {
+      // Dummy projectId for local development. When deployed to Canvas,
+      // __firebase_config will provide the actual project ID.
+      projectId: "dummy-local-recipe-app",
+      // You can add other placeholder Firebase config fields here if needed for local testing,
+      // e.g., apiKey: "your-local-api-key", authDomain: "your-local-auth-domain"
+      // But projectId is the minimum to resolve the current error.
+    };
 const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
 // Initialize Firebase App
@@ -121,3 +131,5 @@ export const useRecipeStore = create((set, get) => ({
     }
   },
 }));
+
+          
