@@ -1,6 +1,6 @@
 // src/components/AddRecipeForm.jsx
 import { useState } from 'react';
-import { useRecipeStore } from '../recipeStore'; // Adjust path if your store is elsewhere
+import { useRecipeStore } from './recipeStore'; // Adjust path if your store is elsewhere
 
 const AddRecipeForm = () => {
   // Access the 'addRecipe' action from the Zustand store

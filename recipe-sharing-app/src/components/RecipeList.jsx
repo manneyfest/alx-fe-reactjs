@@ -1,5 +1,5 @@
 // src/components/RecipeList.jsx
-import { useRecipeStore } from '../recipeStore'; // Adjust path if your store is elsewhere
+import { useRecipeStore } from './recipeStore'; // Adjust path if your store is elsewhere
 
 const RecipeList = () => {
   // Access the 'recipes' state from the Zustand store
