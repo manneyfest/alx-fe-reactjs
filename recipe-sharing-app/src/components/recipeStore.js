@@ -1,3 +1,5 @@
+// src/stores/useRecipeStore.js
+
 import { create } from 'zustand';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
@@ -28,47 +30,144 @@ const auth = getAuth(app);
 // --- Zustand Store Definition ---
 export const useRecipeStore = create((set, get) => ({
   recipes: [],
-  // `isDataLoaded` helps us know when the initial data fetch from Firestore is complete
   isDataLoaded: false,
-  userId: null, // To store the authenticated user's ID
+  userId: null,
 
-  // This action handles Firebase authentication and sets up the real-time data listener
+  // --- NEW: Favorites State and Actions ---
+  // Store favorite recipe IDs. This will also be stored in Firestore for persistence.
+  favorites: [],
+  // Store recommendations. These are generated client-side based on favorites.
+  recommendations: [],
+
+  // Action to add a recipe to favorites (both in Zustand and Firestore)
+  addFavorite: async (recipeId) => {
+    const { userId, favorites } = get();
+    if (!userId) {
+      console.error("User not authenticated. Cannot add favorite.");
+      return;
+    }
+    if (favorites.includes(recipeId)) {
+      console.log(`Recipe ${recipeId} is already a favorite.`);
+      return;
+    }
+
+    try {
+      const newFavorites = [...favorites, recipeId];
+      // Update Zustand store immediately for responsiveness
+      set({ favorites: newFavorites });
+
+      // Update Firestore: Store favorite IDs in a document for the user
+      const userFavoritesRef = doc(db, `artifacts/${appId}/users/${userId}/private`, 'favorites');
+      await setDoc(userFavoritesRef, { recipeIds: newFavorites });
+      console.log("Favorite added and updated in Firestore:", recipeId);
+    } catch (e) {
+      console.error("Error adding favorite to Firestore: ", e);
+      // Revert Zustand state if Firestore update fails (optional, depends on error handling strategy)
+      set({ favorites: favorites });
+    }
+  },
+
+  // Action to remove a recipe from favorites (both in Zustand and Firestore)
+  removeFavorite: async (recipeId) => {
+    const { userId, favorites } = get();
+    if (!userId) {
+      console.error("User not authenticated. Cannot remove favorite.");
+      return;
+    }
+
+    try {
+      const newFavorites = favorites.filter(id => id !== recipeId);
+      // Update Zustand store immediately for responsiveness
+      set({ favorites: newFavorites });
+
+      // Update Firestore: Store updated favorite IDs
+      const userFavoritesRef = doc(db, `artifacts/${appId}/users/${userId}/private`, 'favorites');
+      await setDoc(userFavoritesRef, { recipeIds: newFavorites });
+      console.log("Favorite removed and updated in Firestore:", recipeId);
+    } catch (e) {
+      console.error("Error removing favorite from Firestore: ", e);
+      // Revert Zustand state if Firestore update fails
+      set({ favorites: favorites });
+    }
+  },
+
+  // Action to generate personalized recipe recommendations
+  // This is a client-side computation based on current `recipes` and `favorites`
+  generateRecommendations: () => {
+    const { recipes, favorites } = get();
+    console.log('Generating recommendations...');
+
+    // Filter out recipes that are already favorited
+    const unfavoritedRecipes = recipes.filter(recipe =>
+      !favorites.includes(recipe.id)
+    );
+
+    // Simple Recommendation Logic:
+    // This is a mock implementation. For a real app, you'd use more complex logic:
+    // - Based on tags/categories of favorited recipes
+    // - Popularity among other users
+    // - User's past interactions (views, comments)
+    const newRecommendations = unfavoritedRecipes
+      .sort(() => 0.5 - Math.random()) // Shuffle the unfavorited recipes randomly
+      .slice(0, 4); // Take the first 4 as recommendations
+
+    set({ recommendations: newRecommendations });
+    console.log('Recommendations generated:', newRecommendations);
+  },
+
+  // --- Firebase Initialization and Data Loading (Modified to include favorites) ---
   initFirebaseAndLoadData: async () => {
     try {
-      // Authenticate the user using the provided custom token or anonymously
       if (initialAuthToken) {
         await signInWithCustomToken(auth, initialAuthToken);
       } else {
-        // Fallback to anonymous sign-in if no custom token is available
         await signInAnonymously(auth);
       }
 
-      // Set up an authentication state listener
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           const currentUserId = user.uid;
-          set({ userId: currentUserId }); // Update the userId in the Zustand store
+          set({ userId: currentUserId });
 
-          // Define the Firestore collection path for this user's recipes
-          // Recipes are stored privately per user: artifacts/{appId}/users/{userId}/recipes
+          // 1. Set up listener for User's Recipes
           const userRecipesCollectionRef = collection(db, `artifacts/${appId}/users/${currentUserId}/recipes`);
-
-          // Set up a real-time listener using onSnapshot
-          // This ensures that `recipes` state is always up-to-date with Firestore
           onSnapshot(userRecipesCollectionRef, (snapshot) => {
             const fetchedRecipes = snapshot.docs.map(doc => ({
-              id: doc.id, // The document ID is crucial for updates/deletions
-              ...doc.data() // All other fields from the document
+              id: doc.id,
+              ...doc.data()
             }));
-            set({ recipes: fetchedRecipes, isDataLoaded: true }); // Update recipes and mark data as loaded
+            set({ recipes: fetchedRecipes }); // Just set recipes here. isDataLoaded will be set below.
+            // After recipes are loaded, re-generate recommendations
+            get().generateRecommendations();
           }, (error) => {
             console.error("Error fetching recipes from Firestore: ", error);
-            set({ isDataLoaded: true }); // Still mark as loaded even if there's an error to prevent infinite loading
           });
+
+          // 2. NEW: Set up listener for User's Favorites
+          // Favorites will be stored in a subcollection called 'private'
+          // with a document ID 'favorites'
+          const userFavoritesDocRef = doc(db, `artifacts/${appId}/users/${currentUserId}/private`, 'favorites');
+          onSnapshot(userFavoritesDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+              const favoriteData = docSnap.data();
+              // Ensure favoriteData.recipeIds is an array
+              const fetchedFavorites = Array.isArray(favoriteData.recipeIds) ? favoriteData.recipeIds : [];
+              set({ favorites: fetchedFavorites });
+            } else {
+              // If the favorites document doesn't exist, set favorites to an empty array
+              set({ favorites: [] });
+            }
+            // After favorites are loaded, re-generate recommendations
+            get().generateRecommendations();
+            set({ isDataLoaded: true }); // Mark data loaded *after* both recipes and favorites listeners are set up
+          }, (error) => {
+            console.error("Error fetching favorites from Firestore: ", error);
+            set({ isDataLoaded: true }); // Mark as loaded even on error
+          });
+
         } else {
-          // If no user is signed in, clear recipes and mark data as loaded
           console.log("No user signed in. Recipe data will not be loaded.");
-          set({ userId: null, recipes: [], isDataLoaded: true });
+          set({ userId: null, recipes: [], favorites: [], recommendations: [], isDataLoaded: true });
         }
       });
     } catch (error) {
@@ -77,7 +176,7 @@ export const useRecipeStore = create((set, get) => ({
     }
   },
 
-  // Action to add a new recipe to Firestore
+  // --- Existing Recipe Management Actions (Unchanged, but included for completeness) ---
   addRecipe: async (recipeData) => {
     const { userId } = get();
     if (!userId) {
@@ -85,9 +184,7 @@ export const useRecipeStore = create((set, get) => ({
       return;
     }
     try {
-      // Create a new document reference with an auto-generated ID
       const newDocRef = doc(collection(db, `artifacts/${appId}/users/${userId}/recipes`));
-      // Set the document data. `setDoc` with a new ref adds a new document.
       await setDoc(newDocRef, { ...recipeData, createdAt: new Date().toISOString() });
       console.log("Recipe added successfully to Firestore with ID:", newDocRef.id);
     } catch (e) {
@@ -95,7 +192,6 @@ export const useRecipeStore = create((set, get) => ({
     }
   },
 
-  // Action to update an existing recipe in Firestore
   updateRecipe: async (recipeId, updatedData) => {
     const { userId } = get();
     if (!userId) {
@@ -103,9 +199,7 @@ export const useRecipeStore = create((set, get) => ({
       return;
     }
     try {
-      // Get a reference to the specific recipe document
       const recipeRef = doc(db, `artifacts/${appId}/users/${userId}/recipes`, recipeId);
-      // Use `setDoc` with `{ merge: true }` to update only the specified fields, leaving others untouched
       await setDoc(recipeRef, updatedData, { merge: true });
       console.log("Recipe updated successfully in Firestore:", recipeId);
     } catch (e) {
@@ -113,7 +207,6 @@ export const useRecipeStore = create((set, get) => ({
     }
   },
 
-  // Action to delete a recipe from Firestore
   deleteRecipe: async (recipeId) => {
     const { userId } = get();
     if (!userId) {
@@ -121,15 +214,13 @@ export const useRecipeStore = create((set, get) => ({
       return;
     }
     try {
-      // Get a reference to the specific recipe document
       const recipeRef = doc(db, `artifacts/${appId}/users/${userId}/recipes`, recipeId);
-      // Delete the document from Firestore
       await deleteDoc(recipeRef);
       console.log("Recipe deleted successfully from Firestore:", recipeId);
+      // If a deleted recipe was a favorite, remove it from favorites too
+      get().removeFavorite(recipeId); // Call removeFavorite action
     } catch (e) {
       console.error("Error deleting document from Firestore: ", e);
     }
   },
 }));
-
-          

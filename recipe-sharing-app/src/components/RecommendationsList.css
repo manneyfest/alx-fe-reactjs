@@ -1,0 +1,5 @@
+
+/* src/components/RecommendationsList.css */
+@import './FavoritesList.css'; /* Import common styles from FavoritesList.css */
+
+/* No specific overrides needed for RecommendationsList itself if styles are common */
