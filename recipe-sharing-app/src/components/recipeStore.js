@@ -3,79 +3,71 @@
 import { create } from 'zustand';
 
 const useRecipeStore = create(set => ({
-  // 1. State: The data your store will hold
+  // Existing State
   recipes: [],
-  searchTerm: '', // <--- New: State to hold the current search term
-  filteredRecipes: [], // <--- New: State to hold the recipes that match the search
+  searchTerm: '',
+  filteredRecipes: [],
 
-  // 2. Actions: Functions that allow you to modify the state
+  // --- New: State for Favorites and Recommendations ---
+  favorites: [], // Array to store IDs of favorite recipes
+  recommendations: [], // Array to store recommended recipes
 
-  /**
-   * Action to add a new recipe to the `recipes` array.
-   * @param {object} newRecipe - The new recipe object to add.
-   * Expected format: { id: string, title: string, description: string }
-   */
-  addRecipe: (newRecipe) => set(state => ({
-    recipes: [...state.recipes, newRecipe]
-  })),
+  // Existing Actions
 
-  /**
-   * Action to set (replace) the entire list of recipes.
-   * This is useful for initializing recipes from an external source (like mock data or an API later).
-   * @param {Array<object>} recipesArray - An array of recipe objects to replace the current `recipes` state.
-   */
-  setRecipes: (recipesArray) => set(state => { // Modified to also trigger filtering
-    const newState = { recipes: recipesArray };
-    // After setting recipes, also filter them if a search term exists
-    if (state.searchTerm) {
-        newState.filteredRecipes = recipesArray.filter(recipe =>
-            recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-        );
-    } else {
-        newState.filteredRecipes = recipesArray; // If no search term, all recipes are "filtered"
-    }
-    return newState;
-  }),
-
-
-  /**
-   * Action to delete a recipe by its ID.
-   * @param {string} recipeId - The ID of the recipe to delete.
-   */
-  deleteRecipe: (recipeId) => set(state => {
-    const updatedRecipes = state.recipes.filter(recipe => recipe.id !== recipeId);
+  addRecipe: (newRecipe) => set(state => {
+    const updatedRecipes = [...state.recipes, newRecipe];
     return {
       recipes: updatedRecipes,
-      // Also update filteredRecipes after deletion
       filteredRecipes: updatedRecipes.filter(recipe =>
         recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-      )
+      ),
+      // Recalculate recommendations after adding a recipe
+      recommendations: useRecipeStore.getState().generateRecommendations(updatedRecipes, state.favorites)
     };
   }),
 
-  /**
-   * Action to update an existing recipe.
-   * @param {object} updatedRecipe - The updated recipe object. It must contain the `id` of the recipe to update.
-   * Expected format: { id: string, title: string, description: string }
-   */
+  setRecipes: (recipesArray) => set(state => {
+    const newState = { recipes: recipesArray };
+    if (state.searchTerm) {
+      newState.filteredRecipes = recipesArray.filter(recipe =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      );
+    } else {
+      newState.filteredRecipes = recipesArray;
+    }
+    // Recalculate recommendations after setting/loading recipes
+    newState.recommendations = useRecipeStore.getState().generateRecommendations(recipesArray, state.favorites);
+    return newState;
+  }),
+
+  deleteRecipe: (recipeId) => set(state => {
+    const updatedRecipes = state.recipes.filter(recipe => recipe.id !== recipeId);
+    const updatedFavorites = state.favorites.filter(id => id !== recipeId); // Also remove from favorites if deleted
+    return {
+      recipes: updatedRecipes,
+      filteredRecipes: updatedRecipes.filter(recipe =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      ),
+      favorites: updatedFavorites, // Update favorites
+      // Recalculate recommendations after deleting a recipe
+      recommendations: useRecipeStore.getState().generateRecommendations(updatedRecipes, updatedFavorites)
+    };
+  }),
+
   updateRecipe: (updatedRecipe) => set(state => {
     const updatedRecipes = state.recipes.map(recipe =>
       recipe.id === updatedRecipe.id ? updatedRecipe : recipe
     );
     return {
       recipes: updatedRecipes,
-      // Also update filteredRecipes after update
       filteredRecipes: updatedRecipes.filter(recipe =>
         recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-      )
+      ),
+      // Recalculate recommendations after updating a recipe
+      recommendations: useRecipeStore.getState().generateRecommendations(updatedRecipes, state.favorites)
     };
   }),
 
-  /**
-   * Action to update the search term.
-   * This action will also trigger the filtering process immediately.
-   * @param {string} term - The new search term.
-   */
   setSearchTerm: (term) => set(state => {
     const newSearchTerm = term.toLowerCase();
     const newFilteredRecipes = state.recipes.filter(recipe =>
@@ -87,23 +79,69 @@ const useRecipeStore = create(set => ({
     };
   }),
 
-  // NOTE: The 'filterRecipes' action provided in the prompt is more of a helper
-  // to show how filtering logic would work. In a real scenario, you usually
-  // trigger filtering whenever the 'searchTerm' changes or 'recipes' change.
-  // I've integrated the filtering logic directly into 'setSearchTerm', 'setRecipes',
-  // 'addRecipe', 'deleteRecipe', and 'updateRecipe' to ensure filtered results are
-  // always up-to-date automatically. If the checker explicitly looks for a
-  // separate `filterRecipes` action, we might need to add a dummy one.
   filterRecipes: () => set(state => ({
-    // This action would typically be called when filtering logic needs re-evaluation.
-    // However, for simplicity and automatic updates, we've integrated filtering
-    // directly into setters of related state (searchTerm, recipes).
-    // If the checker needs this to *do* something, it will likely be called
-    // after setSearchTerm, so ensure it performs the filter.
     filteredRecipes: state.recipes.filter(recipe =>
       recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
     )
-  }))
+  })),
+
+  // --- New Actions for Favorites and Recommendations ---
+
+  /**
+   * Action to add a recipe ID to the favorites array.
+   * Ensures no duplicates are added.
+   * @param {string} recipeId - The ID of the recipe to favorite.
+   */
+  addFavorite: (recipeId) => set(state => {
+    const newFavorites = state.favorites.includes(recipeId)
+      ? state.favorites
+      : [...state.favorites, recipeId];
+    return {
+      favorites: newFavorites,
+      // Recalculate recommendations after adding a favorite
+      recommendations: useRecipeStore.getState().generateRecommendations(state.recipes, newFavorites)
+    };
+  }),
+
+  /**
+   * Action to remove a recipe ID from the favorites array.
+   * @param {string} recipeId - The ID of the recipe to unfavorite.
+   */
+  removeFavorite: (recipeId) => set(state => {
+    const newFavorites = state.favorites.filter(id => id !== recipeId);
+    return {
+      favorites: newFavorites,
+      // Recalculate recommendations after removing a favorite
+      recommendations: useRecipeStore.getState().generateRecommendations(state.recipes, newFavorites)
+    };
+  }),
+
+  /**
+   * Generates mock recommendations based on favorites.
+   * This is called internally after relevant state changes.
+   * (The parameters are for internal use to get the latest state during updates).
+   */
+  generateRecommendations: (currentRecipes = [], currentFavorites = []) => {
+    // This is a simple mock recommendation logic:
+    // It picks recipes that are *not* favorites, but might be similar or just random.
+    // For a more robust system, you'd implement actual recommendation algorithms here.
+    const allRecipes = currentRecipes.length ? currentRecipes : useRecipeStore.getState().recipes;
+    const currentFavs = currentFavorites.length ? currentFavorites : useRecipeStore.getState().favorites;
+
+    const nonFavoriteRecipes = allRecipes.filter(recipe => !currentFavs.includes(recipe.id));
+
+    // Simple recommendation: pick a few random non-favorites
+    const recommendations = [];
+    const numRecommendations = Math.min(3, nonFavoriteRecipes.length); // Limit to 3 recommendations
+    for (let i = 0; i < numRecommendations; i++) {
+      const randomIndex = Math.floor(Math.random() * nonFavoriteRecipes.length);
+      recommendations.push(nonFavoriteRecipes[randomIndex]);
+      nonFavoriteRecipes.splice(randomIndex, 1); // Remove to avoid duplicates in recommendations
+    }
+
+    return recommendations;
+  },
+
 }));
 
 export default useRecipeStore;

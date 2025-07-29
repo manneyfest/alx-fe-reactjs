@@ -1,28 +1,23 @@
 // src/components/RecipeDetails.jsx
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Will use in Step 3 for routing
-import useRecipeStore from './recipeStore'; // Your Zustand store
-import './RecipeDetails.css'; // We'll create this CSS file next
+import { useParams, useNavigate } from 'react-router-dom';
+import useRecipeStore from './recipeStore';
+import './RecipeDetails.css';
 
-// Import the components we'll create later for editing and deleting
+// Import the components for editing, deleting, and now favoriting
 import EditRecipeForm from './EditRecipeForm';
 import DeleteRecipeButton from './DeleteRecipeButton';
+import FavoriteToggleButton from './FavoriteToggleButton'; // Import the toggle button
 
 const RecipeDetails = () => {
-  // useParams() hook from react-router-dom allows us to read parameters from the URL.
-  // We'll configure our route in App.jsx to pass the recipe ID as a parameter.
   const { recipeId } = useParams();
-  const navigate = useNavigate(); // For programmatic navigation (e.g., back button)
-
-  // Get the recipe data from the store based on the recipeId from the URL
+  const navigate = useNavigate();
   const recipe = useRecipeStore(state =>
     state.recipes.find(r => r.id === recipeId)
   );
 
-  // We'll manage editing state locally within this component
   const [isEditing, setIsEditing] = React.useState(false);
 
-  // Handle case where recipe is not found (e.g., invalid URL)
   if (!recipe) {
     return (
       <div className="recipe-details-container">
@@ -41,21 +36,23 @@ const RecipeDetails = () => {
       </button>
 
       {isEditing ? (
-        // If in editing mode, show the EditRecipeForm
         <EditRecipeForm recipe={recipe} onSave={() => setIsEditing(false)} onCancel={() => setIsEditing(false)} />
       ) : (
-        // Otherwise, show the recipe details
         <div className="recipe-details-card">
           <h1>{recipe.title}</h1>
           <p className="recipe-description-details">{recipe.description}</p>
-          {/* You could add more details like ingredients, instructions, image here */}
+          {/* Place the FavoriteToggleButton near the title or actions */}
+          <div className="recipe-detail-header">
+            {/* You could put it here, or inside the actions div */}
+          </div>
 
           <div className="recipe-actions">
             <button onClick={() => setIsEditing(true)} className="edit-button">
               Edit Recipe
             </button>
-            {/* The DeleteRecipeButton component will handle its own logic */}
             <DeleteRecipeButton recipeId={recipe.id} />
+            {/* Add the FavoriteToggleButton here */}
+            <FavoriteToggleButton recipeId={recipe.id} />
           </div>
         </div>
       )}

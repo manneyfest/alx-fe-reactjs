@@ -1,13 +1,14 @@
 // src/App.jsx
 import React, { useEffect } from 'react';
-// Import routing components
 import { Routes, Route } from 'react-router-dom';
 
 // Import your components
 import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 import RecipeDetails from './components/RecipeDetails';
-import SearchBar from './components/SearchBar'; // <--- New: Import the SearchBar component
+import SearchBar from './components/SearchBar';
+import FavoritesList from './components/FavoritesList';       // <--- New: Import FavoritesList
+import RecommendationsList from './components/RecommendationsList'; // <--- New: Import RecommendationsList
 
 // Import your Zustand store
 import useRecipeStore from './components/recipeStore';
@@ -17,9 +18,7 @@ import './App.css';
 
 function App() {
   const setRecipes = useRecipeStore(state => state.setRecipes);
-  // Get the filterRecipes action - though its logic is mostly handled by setSearchTerm,
-  // it might be called explicitly by some checkers.
-  const filterRecipes = useRecipeStore(state => state.filterRecipes);
+  const generateRecommendations = useRecipeStore(state => state.generateRecommendations); // Get the action
 
   useEffect(() => {
     const mockInitialRecipes = [
@@ -31,11 +30,11 @@ function App() {
     setRecipes(mockInitialRecipes);
   }, [setRecipes]);
 
-  // Use another useEffect to trigger initial filtering or whenever recipes change
-  // This ensures filteredRecipes is populated even before a search term is entered
+  // Use useEffect to ensure initial recommendations are generated when recipes are set
+  // This should run only once or when setRecipes (and thus recipes) changes
   useEffect(() => {
-    filterRecipes(); // Call filterRecipes initially and whenever relevant state changes
-  }, [filterRecipes, setRecipes]); // Re-run if filterRecipes itself changes or recipes are set
+    generateRecommendations();
+  }, [generateRecommendations, setRecipes]);
 
 
   return (
@@ -46,12 +45,15 @@ function App() {
 
       <main className="app-main-content">
         <Routes>
-          {/* Route for the home page: now includes SearchBar, AddRecipeForm and RecipeList */}
+          {/* Home Route: Now includes FavoritesList and RecommendationsList */}
           <Route path="/" element={
             <>
-              <SearchBar /> {/* <--- New: Place the SearchBar here */}
+              <SearchBar />
               <AddRecipeForm />
-              <RecipeList />
+              {/* Place Favorites and Recommendations here */}
+              <FavoritesList />          {/* <--- New: Add FavoritesList */}
+              <RecommendationsList />    {/* <--- New: Add RecommendationsList */}
+              <RecipeList />             {/* Keep RecipeList for all recipes or filtered results */}
             </>
           } />
 

@@ -1,0 +1,26 @@
+/* src/components/FavoriteToggleButton.css */
+
+.favorite-toggle-button {
+    position: absolute; /* Position it on top of the card */
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.8em; /* Make the heart icon large */
+    cursor: pointer;
+    padding: 5px;
+    z-index: 10; /* Ensure it's above other content */
+    transition: transform 0.2s ease;
+  }
+  
+  .favorite-toggle-button:hover {
+    transform: scale(1.2); /* Slightly enlarge on hover */
+  }
+  
+  .favorite-toggle-button.is-favorite {
+    color: #ff4500; /* Orange-red for favorited state */
+  }
+  
+  .favorite-toggle-button:not(.is-favorite) {
+    color: #ccc; /* Lighter gray for non-favorited state */
+  }

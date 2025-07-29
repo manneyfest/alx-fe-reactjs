@@ -1,0 +1,10 @@
+/* src/components/RecommendationsList.css */
+
+/* Most styles are shared from FavoritesList.css for consistency. */
+/* Add specific styles here if recommendations need a distinct look. */
+
+/* Example: Different background color */
+.recommendations-list-container {
+    background-color: #f8fcf8; /* A slightly greenish tint */
+    border: 1px dashed #d0e0d0; /* Indicate it's "suggested" */
+}
