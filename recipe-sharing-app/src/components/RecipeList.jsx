@@ -1,7 +1,7 @@
 // src/components/RecipeList.jsx
 import React from 'react';
 // Adjust the import path for your store. It's usually one level up from components.
-import useRecipeStore from '../stores/useRecipeStore';
+import useRecipeStore from './recipeStore';
 import './RecipeList.css'; // We'll create this CSS file next
 
 const RecipeList = () => {

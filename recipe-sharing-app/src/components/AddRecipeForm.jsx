@@ -1,7 +1,7 @@
 // src/components/AddRecipeForm.jsx
 import React, { useState } from 'react';
 // Adjust the import path for your store.
-import useRecipeStore from '../stores/useRecipeStore';
+import useRecipeStore from './recipeStore';
 import './AddRecipeForm.css'; // We'll create this CSS file next
 
 const AddRecipeForm = () => {

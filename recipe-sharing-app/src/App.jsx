@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import RecipeList from './components/RecipeList';
 import AddRecipeForm from './components/AddRecipeForm';
 // Import your Zustand store
-import useRecipeStore from './stores/useRecipeStore';
+import useRecipeStore from './components/recipeStore';
 
 // Import the main application CSS file
 import './App.css';
