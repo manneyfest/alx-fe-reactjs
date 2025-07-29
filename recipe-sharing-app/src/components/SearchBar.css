@@ -1,0 +1,35 @@
+/* src/components/SearchBar.css */
+
+.search-bar-container {
+    margin: 20px 0; /* Add some vertical spacing */
+    text-align: center; /* Center the search bar */
+  }
+  
+  .search-input {
+    width: 70%; /* Adjust width as needed */
+    padding: 12px 15px;
+    border: 2px solid #3f72af; /* Matching your app's accent color */
+    border-radius: 25px; /* Rounded corners for a modern look */
+    font-size: 1.1em;
+    outline: none; /* Remove default focus outline */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Include padding in the element's total width/height */
+  }
+  
+  .search-input:focus {
+    border-color: #112d4e; /* Darker border on focus */
+    box-shadow: 0 0 8px rgba(63, 114, 175, 0.3); /* Subtle glow on focus */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .search-input {
+      width: 85%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .search-input {
+      width: 95%;
+    }
+  }

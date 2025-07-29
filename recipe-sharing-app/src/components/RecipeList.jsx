@@ -1,29 +1,33 @@
 // src/components/RecipeList.jsx
 import React from 'react';
-// Adjust the import path for your store. It's usually one level up from components.
-import useRecipeStore from './recipeStore';
-import './RecipeList.css'; // We'll create this CSS file next
+import { Link } from 'react-router-dom';
+import useRecipeStore from './recipeStore'; // Your Zustand store
+import './RecipeList.css';
 
 const RecipeList = () => {
-  // Access the 'recipes' state from the Zustand store
-  // When 'recipes' in the store changes, this component will re-render.
-  const recipes = useRecipeStore(state => state.recipes);
+  // Access the 'filteredRecipes' state from the Zustand store
+  // This component will now re-render whenever the filtered list changes.
+  const filteredRecipes = useRecipeStore(state => state.filteredRecipes);
 
   return (
     <div className="recipe-list-container">
       <h2>All Recipes</h2>
-      {recipes.length === 0 ? (
-        // Display a message if there are no recipes
-        <p className="no-recipes-message">No recipes added yet. Be the first!</p>
+      {/* Now check filteredRecipes.length instead of recipes.length */}
+      {filteredRecipes.length === 0 ? (
+        // Display a message if there are no filtered recipes
+        <p className="no-recipes-message">No recipes found matching your search. Try a different term!</p>
       ) : (
-        // If recipes exist, display them in a grid
+        // If filtered recipes exist, display them in a grid
         <div className="recipe-grid">
-          {recipes.map(recipe => (
-            <div key={recipe.id} className="recipe-card">
-              <h3>{recipe.title}</h3>
-              <p>{recipe.description}</p>
-              {/* In later tasks, you might add more details, images, or buttons here */}
-            </div>
+          {/* Map over filteredRecipes instead of recipes */}
+          {filteredRecipes.map(recipe => (
+            <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="recipe-card-link">
+              <div className="recipe-card">
+                <h3>{recipe.title}</h3>
+                <p>{recipe.description.substring(0, 100)}...</p> {/* Show a truncated description */}
+                <span className="view-details">View Details &raquo;</span>
+              </div>
+            </Link>
           ))}
         </div>
       )}
