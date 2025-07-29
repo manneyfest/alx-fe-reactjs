@@ -1,12 +1,9 @@
-// src/stores/useRecipeStore.js
+// src/components/recipeStore.js
 
-// Import `create` as a named export from zustand
 import { create } from 'zustand';
 
-// Define your Zustand store
 const useRecipeStore = create(set => ({
   // 1. State: The data your store will hold
-  // `recipes` will be an array of recipe objects
   recipes: [],
 
   // 2. Actions: Functions that allow you to modify the state
@@ -17,7 +14,7 @@ const useRecipeStore = create(set => ({
    * Expected format: { id: string, title: string, description: string }
    */
   addRecipe: (newRecipe) => set(state => ({
-    recipes: [...state.recipes, newRecipe] // Append the new recipe to the existing array
+    recipes: [...state.recipes, newRecipe]
   })),
 
   /**
@@ -25,7 +22,29 @@ const useRecipeStore = create(set => ({
    * This is useful for initializing recipes from an external source (like mock data or an API later).
    * @param {Array<object>} recipesArray - An array of recipe objects to replace the current `recipes` state.
    */
-  setRecipes: (recipesArray) => set({ recipes: recipesArray })
+  setRecipes: (recipesArray) => set({ recipes: recipesArray }),
+
+  /**
+   * Action to delete a recipe by its ID.
+   * @param {string} recipeId - The ID of the recipe to delete.
+   */
+  deleteRecipe: (recipeId) => set(state => ({
+    // Filter out the recipe with the matching ID
+    recipes: state.recipes.filter(recipe => recipe.id !== recipeId)
+  })),
+
+  /**
+   * Action to update an existing recipe.
+   * @param {object} updatedRecipe - The updated recipe object. It must contain the `id` of the recipe to update.
+   * Expected format: { id: string, title: string, description: string }
+   */
+  updateRecipe: (updatedRecipe) => set(state => ({
+    recipes: state.recipes.map(recipe =>
+      // If the current recipe's ID matches the updatedRecipe's ID, replace it.
+      // Otherwise, keep the original recipe.
+      recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+    )
+  }))
 }));
 
 export default useRecipeStore;
