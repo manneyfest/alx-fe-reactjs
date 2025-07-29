@@ -1,24 +1,31 @@
 // src/components/RecipeList.jsx
-import { useRecipeStore } from './recipeStore'; // Adjust path if your store is elsewhere
+import React from 'react';
+// Adjust the import path for your store. It's usually one level up from components.
+import useRecipeStore from '../stores/useRecipeStore';
+import './RecipeList.css'; // We'll create this CSS file next
 
 const RecipeList = () => {
   // Access the 'recipes' state from the Zustand store
+  // When 'recipes' in the store changes, this component will re-render.
   const recipes = useRecipeStore(state => state.recipes);
 
   return (
-    <div>
-      <h2>Recipe List</h2>
+    <div className="recipe-list-container">
+      <h2>All Recipes</h2>
       {recipes.length === 0 ? (
-        <p>No recipes added yet. Start by adding one!</p>
+        // Display a message if there are no recipes
+        <p className="no-recipes-message">No recipes added yet. Be the first!</p>
       ) : (
-        <ul>
+        // If recipes exist, display them in a grid
+        <div className="recipe-grid">
           {recipes.map(recipe => (
-            <li key={recipe.id} style={{ marginBottom: '15px', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
+            <div key={recipe.id} className="recipe-card">
               <h3>{recipe.title}</h3>
               <p>{recipe.description}</p>
-            </li>
+              {/* In later tasks, you might add more details, images, or buttons here */}
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

@@ -1,174 +1,55 @@
-/* General body and container styles */
+/* src/App.css */
+
+/* Basic reset for body and general typography */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f7f6; /* Light background */
-  color: #333;
-}
-
-.app-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* Header styles */
-.app-header {
-  background-color: #3f72af; /* Darker blue header */
-  color: white;
-  padding: 20px;
-  text-align: center;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.app-header h1 {
-  margin: 0;
-  font-size: 2.5em;
-}
-
-/* Main content area */
-.app-main-content {
-  display: flex;
-  flex-direction: column;
-  gap: 30px; /* Space between sections */
-}
-
-/* Section styling */
-.all-recipes-section,
-.user-personalized-sections {
-  background-color: #ffffff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.all-recipes-section h2,
-.user-personalized-sections h2 {
-  color: #112d4e; /* Darker blue for section titles */
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 2em;
-}
-
-/* Recipe grid for all recipes */
-.recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 25px;
-}
-
-/* Individual recipe card styling (shared with favorites/recommendations via import) */
-.recipe-card {
-  background-color: #fefefe;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.recipe-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.recipe-card h3 {
-  color: #112d4e;
-  font-size: 1.5em;
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
-.recipe-card p {
-  color: #4a4a4a;
-  font-size: 1em;
-  line-height: 1.6;
-  flex-grow: 1;
-}
-
-.recipe-card .recipe-image {
-  max-width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 15px;
-}
-
-/* Buttons (these styles are repeated in FavoritesList.css, consider consolidating) */
-.add-favorite-btn, .remove-favorite-btn {
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  margin-top: 15px;
-  transition: background-color 0.2s ease;
-  align-self: flex-start;
-}
-
-.add-favorite-btn {
-  background-color: #32cd32; /* Lime Green */
-  color: white;
-}
-
-.add-favorite-btn:hover {
-  background-color: #228b22; /* Forest Green */
-}
-
-.remove-favorite-btn {
-  background-color: #dc3545; /* Red */
-  color: white;
-}
-
-.remove-favorite-btn:hover {
-  background-color: #c82333;
-}
-
-/* Section divider */
-.section-divider {
-  border: 0;
-  height: 1px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
-  margin: 40px 0;
-}
-
-/* Loading screen */
-.loading-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  font-size: 1.5em;
-  color: #555;
-  background-color: #f0f0f0;
-}
-
-/* Message for no recipes found */
-.no-recipes-message {
-  grid-column: 1 / -1; /* Make it span all columns in the grid */
-  text-align: center;
-  color: #666;
-  padding: 30px;
-  border: 1px dashed #ccc;
-  border-radius: 8px;
-  background-color: #fbfbfb;
-  font-size: 1.1em;
-}
-
-
-/* Footer */
-.app-footer {
-  text-align: center;
-  padding: 20px;
-  margin-top: 30px;
-  color: #777;
-  font-size: 0.9em;
-  background-color: #e9ecef;
-  border-radius: 8px;
-}
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6; /* Light background color for the entire page */
+    color: #333; /* Default text color */
+    line-height: 1.6; /* Improve readability */
+  }
+  
+  /* Main container for the entire application */
+  .app-container {
+    max-width: 900px; /* Max width to keep content readable on large screens */
+    margin: 20px auto; /* Center the container horizontally with some top/bottom margin */
+    padding: 20px;
+    background-color: #fff; /* White background for the main content area */
+    border-radius: 10px; /* Rounded corners for the container */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  }
+  
+  /* Header styles */
+  .app-header {
+    background-color: #3f72af; /* A shade of blue for the header background */
+    color: white; /* White text for the header */
+    padding: 25px 20px;
+    text-align: center;
+    border-radius: 8px; /* Slightly rounded corners for the header */
+    margin-bottom: 30px; /* Space below the header */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for the header */
+  }
+  
+  .app-header h1 {
+    margin: 0; /* Remove default margin */
+    font-size: 2.8em; /* Large font size for the main title */
+    letter-spacing: 1px; /* Slightly increased letter spacing */
+  }
+  
+  /* Main content area, uses flexbox for vertical stacking */
+  .app-main-content {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    gap: 30px; /* Space between the AddRecipeForm and RecipeList components */
+  }
+  
+  /* Footer styles */
+  .app-footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px; /* Space above the footer */
+    color: #777; /* Gray text for the footer */
+    font-size: 0.9em;
+    background-color: #e9ecef; /* Light gray background for the footer */
+    border-radius: 8px; /* Rounded corners for the footer */
+  }

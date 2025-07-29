@@ -1,42 +1,31 @@
 import React from 'react';
-// Import the necessary routing components from react-router-dom
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// Import your page components.
+// Import all page components
 import HomePage from './components/Home.jsx';
 import AboutPage from './components/About.jsx';
 import ServicesPage from './components/Services.jsx';
 import ContactPage from './components/Contact.jsx';
 
-// The main App component that will contain our navigation and routes.
+// Import Navbar and Footer components
+import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
+
+// Main App component
 const App = () => {
-  const location = useLocation();
-
   return (
-    <div>
-      {/* Navigation Bar (using Link components for navigation) */}
-      <nav>
-        <div>
-          <div>MyCompany</div>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/services">Services</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh', // Ensures the app takes at least the full viewport height
+      fontFamily: 'Arial, sans-serif', // Basic font
+      backgroundColor: '#f4f7f6' // Light background for the overall page
+    }}>
+      {/* Navbar will appear on all pages */}
+      <Navbar />
 
-      {/* Main content area where pages will be rendered based on the route */}
-      <main>
+      {/* Main content area where pages are rendered based on the route */}
+      <main style={{ flexGrow: 1 }}> {/* flexGrow: 1 makes main take up available space */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -45,17 +34,13 @@ const App = () => {
         </Routes>
       </main>
 
-      {/* Footer */}
-      <footer>
-        <div>
-          <p>&copy; {new Date().getFullYear()} MyCompany. All rights reserved.</p>
-        </div>
-      </footer>
+      {/* Footer will appear on all pages */}
+      <Footer />
     </div>
   );
 };
 
-// The <BrowserRouter> component is the highest-level router component.
+// RootApp wraps App with BrowserRouter to enable routing for the entire application
 const RootApp = () => (
   <BrowserRouter>
     <App />

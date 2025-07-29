@@ -1,0 +1,64 @@
+/* Container for the entire add recipe form section */
+.add-recipe-form-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #e6f0ff; /* Light blue background for the form */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading for the add recipe form */
+  .add-recipe-form-container h2 {
+    text-align: center;
+    color: #3f72af; /* Matching your app header color */
+    margin-bottom: 25px;
+    font-size: 2em;
+  }
+  
+  /* Flex layout for the form elements */
+  .add-recipe-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between input fields and button */
+  }
+  
+  /* Styling for input fields (text and textarea) */
+  .form-input,
+  .form-textarea {
+    padding: 12px;
+    border: 1px solid #c0d0e0; /* Light blue border */
+    border-radius: 5px;
+    font-size: 1em;
+    width: calc(100% - 24px); /* Occupy full width minus padding */
+    box-sizing: border-box; /* Include padding in the element's total width/height */
+  }
+  
+  .form-textarea {
+    resize: vertical; /* Allow users to resize the textarea vertically */
+    min-height: 80px; /* Minimum height for the textarea */
+  }
+  
+  /* Placeholder text color */
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: #889bb0; /* Faded placeholder text color */
+  }
+  
+  /* Styling for the submit button */
+  .submit-button {
+    background-color: #32cd32; /* Lime Green */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s ease, transform 0.1s ease; /* Smooth transitions for hover effects */
+    align-self: flex-end; /* Align button to the right within the flex container */
+    width: auto; /* Button width adjusts to its content */
+  }
+  
+  .submit-button:hover {
+    background-color: #228b22; /* Darker green on hover */
+    transform: translateY(-1px); /* Slight lift on hover */
+  }

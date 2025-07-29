@@ -1,93 +1,50 @@
-
+// src/App.jsx
 import React, { useEffect } from 'react';
-import useRecipeStore from './stores/useRecipeStore'; // Adjust path if needed for your project
-import FavoritesList from './components/FavoritesList';
-import RecommendationsList from './components/RecommendationsList';
-import './App.css'; // For general app styling (ensure this file exists and has some basic styling)
+// Import your components
+import RecipeList from './components/RecipeList';
+import AddRecipeForm from './components/AddRecipeForm';
+// Import your Zustand store
+import useRecipeStore from './stores/useRecipeStore';
+
+// Import the main application CSS file
+import './App.css';
 
 function App() {
-  // Get necessary state and actions from your Zustand store
-  const allRecipes = useRecipeStore(state => state.recipes);
-  const favorites = useRecipeStore(state => state.favorites); // Get the current favorites list (IDs)
-  const addFavorite = useRecipeStore(state => state.addFavorite); // Action to add a favorite
-  const removeFavorite = useRecipeStore(state => state.removeFavorite); // Action to remove a favorite
+  // Access the `setRecipes` action from your Zustand store.
+  // This action will be used to initially populate the recipe list.
+  const setRecipes = useRecipeStore(state => state.setRecipes);
 
-  // Get the initFirebaseAndLoadData action to ensure data is fetched when the app starts
-  const initFirebaseAndLoadData = useRecipeStore(state => state.initFirebaseAndLoadData);
-  const isDataLoaded = useRecipeStore(state => state.isDataLoaded); // To show loading state
-
-  // This useEffect hook runs once when the component mounts to initialize Firebase and load data.
-  // It replaces any mock recipe loading you might have had, as Firebase will now handle it.
+  // Use a useEffect hook to run code once when the component mounts.
+  // This is a good place to load initial data, like mock recipes here,
+  // or connect to a backend API in later tasks.
   useEffect(() => {
-    initFirebaseAndLoadData();
-  }, [initFirebaseAndLoadData]); // Dependency array to ensure it only runs once
+    // Define some mock initial recipes
+    const mockInitialRecipes = [
+      { id: 'mock1', title: 'Classic Tomato Pasta', description: 'Simple and delicious tomato pasta with fresh basil and Parmesan.' },
+      { id: 'mock2', title: 'Quick Chicken Stir-fry', description: 'A fast and healthy stir-fry with tender chicken, colorful vegetables, and a savory sauce.' },
+      { id: 'mock3', title: 'Hearty Lentil Soup', description: 'A comforting and nutritious soup packed with lentils, carrots, celery, and savory herbs.' },
+      { id: 'mock4', title: 'Spicy Garlic Prawns', description: 'Succulent prawns cooked in a fiery garlic butter sauce, perfect with crusty bread.' },
+    ];
+    // Use the `setRecipes` action to populate the store with these mock recipes
+    setRecipes(mockInitialRecipes);
 
-  // If data is still loading from Firebase, you might want to show a loading indicator
-  if (!isDataLoaded) {
-    return (
-      <div className="loading-screen">
-        <p>Loading recipes and user data...</p>
-        {/* You could add a spinner or more elaborate loading animation here */}
-      </div>
-    );
-  }
+    // The dependency array `[setRecipes]` means this effect will re-run only if `setRecipes` changes.
+    // Since `setRecipes` is a stable function provided by Zustand's `create`, this effect effectively runs once on mount.
+  }, [setRecipes]);
 
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>Recipe Sharing Application</h1>
-        <nav>
-          {/* You might have navigation links here (e.g., Home, Add Recipe, My Profile) */}
-        </nav>
+        <h1>My Recipe Sharing App</h1>
+        {/* You might add navigation or other header elements here later */}
       </header>
 
       <main className="app-main-content">
-        {/* Section to display all available recipes */}
-        <section className="all-recipes-section">
-          <h2>All Available Recipes</h2>
-          <div className="recipe-grid">
-            {allRecipes.length === 0 ? (
-              <p className="no-recipes-message">No recipes available yet. Add some!</p>
-            ) : (
-              allRecipes.map(recipe => (
-                <div key={recipe.id} className="recipe-card">
-                  <h3>{recipe.title}</h3>
-                  <p>{recipe.description}</p>
-                  {recipe.imageUrl && (
-                    <img src={recipe.imageUrl} alt={recipe.title} className="recipe-image" />
-                  )}
-                  {/* Conditional rendering for Add/Remove from Favorites button */}
-                  {favorites.includes(recipe.id) ? (
-                    // If the recipe ID is in the favorites array, show "Remove from Favorites"
-                    <button
-                      className="remove-favorite-btn"
-                      onClick={() => removeFavorite(recipe.id)} // Call remove action
-                    >
-                      Remove from Favorites
-                    </button>
-                  ) : (
-                    // Otherwise, show "Add to Favorites"
-                    <button
-                      className="add-favorite-btn"
-                      onClick={() => addFavorite(recipe.id)} // Call add action
-                    >
-                      Add to Favorites
-                    </button>
-                  )}
-                  {/* You could add a link to a recipe detail page here */}
-                </div>
-              ))
-            )}
-          </div>
-        </section>
+        {/* Render the AddRecipeForm component */}
+        <AddRecipeForm />
 
-        <hr className="section-divider" />
-
-        {/* Section for user-specific content: Favorites and Recommendations */}
-        <section className="user-personalized-sections">
-          <FavoritesList /> {/* Your new Favorites component */}
-          <RecommendationsList /> {/* Your new Recommendations component */}
-        </section>
+        {/* Render the RecipeList component */}
+        <RecipeList />
       </main>
 
       <footer className="app-footer">
