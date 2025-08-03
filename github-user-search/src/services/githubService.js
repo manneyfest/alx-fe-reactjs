@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const GITHUB_API_URL = 'https://api.github.com/search/users';
 
+// https://api.github.com/search/users?q
+
 export const fetchUserData = async (params) => {
   try {
     let queryString = '';
