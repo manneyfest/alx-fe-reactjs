@@ -3,9 +3,9 @@ import { fetchUserData } from '../services/githubService';
 
 const Search = () => {
   const [username, setUsername] = useState('');
-  const [location, setLocation] = useState(''); // New state for location
-  const [minRepos, setMinRepos] = useState(''); // New state for min repos
-  const [userData, setUserData] = useState(null);
+  const [location, setLocation] = useState('');
+  const [minRepos, setMinRepos] = useState('');
+  const [usersData, setUsersData] = useState([]); // Changed to an array
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -13,7 +13,6 @@ const Search = () => {
     setUsername(event.target.value);
   };
   
-  // Handlers for new inputs
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
   };
@@ -27,15 +26,18 @@ const Search = () => {
     if (!username && !location && !minRepos) return;
 
     setIsLoading(true);
-    setUserData(null);
+    setUsersData([]); // Clear previous results
     setError(null);
 
     try {
-      // The API call logic will be updated in a later step
-      const data = await fetchUserData(username);
-      setUserData(data);
+      const params = { username, location, minRepos };
+      const data = await fetchUserData(params);
+      if (data.items.length === 0) {
+        setError("Looks like we cant find any users with that criteria");
+      }
+      setUsersData(data.items);
     } catch (err) {
-      setError("Looks like we cant find the user");
+      setError("Looks like we cant find any users with that criteria");
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -53,7 +55,6 @@ const Search = () => {
           placeholder="Enter GitHub username"
           className="p-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        {/* New input fields */}
         <input
           type="text"
           value={location}
@@ -76,16 +77,18 @@ const Search = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       
-      {/* Existing user display logic */}
-      {userData && (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-          <img src={userData.avatar_url} alt="User Avatar" className="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-gray-600" />
-          <h2 className="text-2xl font-semibold">{userData.name || userData.login}</h2>
-          <p className="text-gray-400 mb-2">{userData.location}</p>
-          <p className="text-gray-400 mb-4">Public Repos: {userData.public_repos}</p>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
-            View Profile
-          </a>
+      {/* Updated rendering to map through the results array */}
+      {usersData.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-4xl">
+          {usersData.map(user => (
+            <div key={user.id} className="bg-gray-800 p-6 rounded-lg shadow-lg text-center flex flex-col items-center">
+              <img src={user.avatar_url} alt="User Avatar" className="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-gray-600" />
+              <h2 className="text-xl font-semibold mb-1">{user.login}</h2>
+              <a href={user.html_url} target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200 mt-auto">
+                View Profile
+              </a>
+            </div>
+          ))}
         </div>
       )}
     </div>
