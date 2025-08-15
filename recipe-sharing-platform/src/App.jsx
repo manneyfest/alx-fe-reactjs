@@ -1,7 +1,8 @@
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import RecipeDetail from './components/RecipeDetail';
-import './App.css';
+import './index.css'; // Ensure your main CSS with Tailwind directives is imported
 
 function App() {
   return (
@@ -15,3 +16,4 @@ function App() {
 }
 
 export default App;
+

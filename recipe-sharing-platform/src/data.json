@@ -3,12 +3,100 @@
     "id": 1,
     "title": "Spaghetti Carbonara",
     "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://placehold.co/600x400/FF5733/FFFFFF?text=Spaghetti+Carbonara",
+    "ingredients": [
+      "200g spaghetti",
+      "100g pancetta or guanciale",
+      "2 large eggs",
+      "50g Pecorino Romano cheese, grated",
+      "Freshly ground black pepper",
+      "Salt to taste"
+    ],
+    "instructions": [
+      "Cook spaghetti according to package directions.",
+      "While spaghetti cooks, crisp pancetta/guanciale in a pan.",
+      "In a bowl, whisk eggs, Pecorino, and black pepper.",
+      "Drain spaghetti, reserving some pasta water. Add spaghetti to the pancetta pan.",
+      "Quickly pour egg mixture over hot pasta, stirring constantly. Add a splash of pasta water to create a creamy sauce.",
+      "Serve immediately, garnished with extra Pecorino and black pepper."
+    ]
   },
   {
     "id": 2,
     "title": "Chicken Tikka Masala",
     "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://placehold.co/600x400/33FF57/FFFFFF?text=Chicken+Tikka+Masala",
+    "ingredients": [
+      "500g boneless chicken, cut into pieces",
+      "1 cup plain yogurt",
+      "2 tbsp ginger-garlic paste",
+      "1 tsp turmeric powder",
+      "1 tsp cumin powder",
+      "1 tsp coriander powder",
+      "1/2 tsp red chili powder",
+      "Salt to taste",
+      "1 tbsp oil",
+      "1 large onion, chopped",
+      "1 can (400g) crushed tomatoes",
+      "1/2 cup heavy cream",
+      "Fresh cilantro for garnish"
+    ],
+    "instructions": [
+      "Marinate chicken with yogurt, ginger-garlic paste, turmeric, cumin, coriander, chili powder, and salt for at least 30 minutes.",
+      "Heat oil in a large pan over medium heat. Add chopped onion and cook until softened.",
+      "Add marinated chicken and cook until lightly browned.",
+      "Stir in crushed tomatoes and bring to a simmer. Cook for 15-20 minutes, or until chicken is cooked through.",
+      "Stir in heavy cream and simmer for another 5 minutes.",
+      "Garnish with fresh cilantro and serve hot with rice or naan."
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Vegetable Stir-fry",
+    "summary": "A quick and healthy dish packed with colorful vegetables and a savory sauce.",
+    "image": "https://placehold.co/600x400/3366FF/FFFFFF?text=Vegetable+Stir-fry",
+    "ingredients": [
+      "2 cups mixed vegetables (broccoli, carrots, bell peppers, snap peas)",
+      "1 tbsp soy sauce",
+      "1 tbsp oyster sauce (optional)",
+      "1 tsp sesame oil",
+      "1 clove garlic, minced",
+      "1/2 inch ginger, grated",
+      "1 tbsp vegetable oil"
+    ],
+    "instructions": [
+      "Prepare all vegetables.",
+      "In a small bowl, whisk together soy sauce, oyster sauce, and sesame oil.",
+      "Heat vegetable oil in a large wok or skillet over high heat.",
+      "Add garlic and ginger; stir-fry for 30 seconds until fragrant.",
+      "Add harder vegetables (broccoli, carrots) and stir-fry for 2-3 minutes.",
+      "Add softer vegetables (bell peppers, snap peas) and stir-fry for another 2 minutes.",
+      "Pour in the sauce and toss to coat. Cook for 1 minute more until heated through.",
+      "Serve immediately with rice or noodles."
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Classic Pancakes",
+    "summary": "Fluffy, golden pancakes perfect for breakfast or brunch.",
+    "image": "https://placehold.co/600x400/FF9933/FFFFFF?text=Classic+Pancakes",
+    "ingredients": [
+      "1 1/2 cups all-purpose flour",
+      "3 1/2 tsp baking powder",
+      "1 tsp salt",
+      "1 tbsp white sugar",
+      "1 1/4 cups milk",
+      "1 egg",
+      "3 tbsp melted butter"
+    ],
+    "instructions": [
+      "In a large bowl, whisk together flour, baking powder, salt, and sugar.",
+      "In a separate bowl, whisk together milk, egg, and melted butter.",
+      "Pour the wet ingredients into the dry ingredients and mix until just combined (lumps are okay).",
+      "Heat a lightly oiled griddle or frying pan over medium-high heat.",
+      "Pour 1/4 cup of batter per pancake onto the griddle.",
+      "Cook for 2-3 minutes per side, until golden brown and cooked through.",
+      "Serve hot with your favorite toppings."
+    ]
   }
 ]
