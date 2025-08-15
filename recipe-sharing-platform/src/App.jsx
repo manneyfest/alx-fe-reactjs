@@ -2,7 +2,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import RecipeDetail from './components/RecipeDetail';
-import './index.css'; // Ensure your main CSS with Tailwind directives is imported
+import AddRecipeForm from './components/AddRecipeForm';
+import './index.css'; 
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
+        <Route path="/add-recipe" element={<AddRecipeForm />} /> {/* New Route */}
       </Routes>
     </BrowserRouter>
   );
