@@ -1,12 +1,15 @@
 
+import { useState } from 'react'
 import './App.css'
+import HomePage from './components/HomePage';
+
 
 function App() {
 
   return (
-      <div>
-       <h1 className='text-blue-500'>Hello world!</h1>
-    </div>
+      <div className='App'>
+        <HomePage />
+      </div>
   );
 }
 
