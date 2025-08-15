@@ -1,34 +1,35 @@
-// src/components/HomePage.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import mockRecipes from '../data.json';
+import mockRecipes from '../data.json'; // Ensure this path is correct
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
+    // Simulate fetching data, then set it to state
     setRecipes(mockRecipes);
   }, []);
 
   return (
     <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-6 mt-6">
+      <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-6 mt-6">
         Our Delicious Recipes
       </h1>
 
-      {/* New Link/Button to Add Recipe Form */}
+      {/* Link/Button to Add New Recipe Form */}
       <div className="text-center mb-10">
         <Link 
           to="/add-recipe" 
           className="bg-green-600 text-white font-bold py-3 px-6 rounded-lg 
                      hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 
                      transition duration-300 ease-in-out transform hover:scale-105"
+          aria-label="Add a New Recipe"
         >
           + Add New Recipe
         </Link>
       </div>
-      {/* End New Link/Button */}
 
+      {/* Display Recipes in a Responsive Grid */}
       {recipes.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {recipes.map(recipe => (

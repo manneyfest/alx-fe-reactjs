@@ -13,12 +13,12 @@
       "Salt to taste"
     ],
     "instructions": [
-      "Cook spaghetti according to package directions.",
-      "While spaghetti cooks, crisp pancetta/guanciale in a pan.",
-      "In a bowl, whisk eggs, Pecorino, and black pepper.",
-      "Drain spaghetti, reserving some pasta water. Add spaghetti to the pancetta pan.",
-      "Quickly pour egg mixture over hot pasta, stirring constantly. Add a splash of pasta water to create a creamy sauce.",
-      "Serve immediately, garnished with extra Pecorino and black pepper."
+      "Cook spaghetti according to package directions in salted water.",
+      "While spaghetti cooks, cut pancetta/guanciale into small cubes and crisp it in a pan over medium heat until golden and fat is rendered. Remove crispy bits, leaving fat in pan.",
+      "In a bowl, whisk eggs, half of the Pecorino, and a generous amount of black pepper until well combined.",
+      "Drain spaghetti, reserving about 1 cup of the hot pasta water. Add the hot, drained spaghetti directly to the pan with the pancetta fat. Toss to coat.",
+      "Quickly pour the egg mixture over the hot pasta, stirring vigorously to emulsify. Add a splash or two of the reserved pasta water to create a creamy, velvety sauce. Keep stirring until the sauce coats the pasta beautifully. Do NOT cook the eggs; the heat from the pasta will cook them gently.",
+      "Stir in the crispy pancetta bits. Serve immediately, garnished with remaining Pecorino cheese and more freshly ground black pepper."
     ]
   },
   {
@@ -27,7 +27,7 @@
     "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
     "image": "https://placehold.co/600x400/33FF57/FFFFFF?text=Chicken+Tikka+Masala",
     "ingredients": [
-      "500g boneless chicken, cut into pieces",
+      "500g boneless chicken, cut into 1-inch pieces",
       "1 cup plain yogurt",
       "2 tbsp ginger-garlic paste",
       "1 tsp turmeric powder",
@@ -35,19 +35,21 @@
       "1 tsp coriander powder",
       "1/2 tsp red chili powder",
       "Salt to taste",
-      "1 tbsp oil",
-      "1 large onion, chopped",
+      "2 tbsp vegetable oil",
+      "1 large onion, finely chopped",
       "1 can (400g) crushed tomatoes",
       "1/2 cup heavy cream",
-      "Fresh cilantro for garnish"
+      "Fresh cilantro for garnish",
+      "1 tsp garam masala"
     ],
     "instructions": [
-      "Marinate chicken with yogurt, ginger-garlic paste, turmeric, cumin, coriander, chili powder, and salt for at least 30 minutes.",
-      "Heat oil in a large pan over medium heat. Add chopped onion and cook until softened.",
-      "Add marinated chicken and cook until lightly browned.",
-      "Stir in crushed tomatoes and bring to a simmer. Cook for 15-20 minutes, or until chicken is cooked through.",
-      "Stir in heavy cream and simmer for another 5 minutes.",
-      "Garnish with fresh cilantro and serve hot with rice or naan."
+      "Marinate chicken with yogurt, 1 tbsp ginger-garlic paste, 1/2 tsp turmeric, 1/2 tsp cumin, 1/2 tsp coriander, 1/4 tsp red chili powder, and salt. Mix well and let it sit for at least 30 minutes (or ideally, 4 hours in the fridge).",
+      "Heat 1 tbsp oil in a large pan or Dutch oven over medium-high heat. Add the marinated chicken and cook until lightly browned on all sides. Remove chicken and set aside.",
+      "In the same pan, add remaining 1 tbsp oil. Add chopped onion and cook until softened and translucent, about 5-7 minutes.",
+      "Add remaining ginger-garlic paste, turmeric, cumin, coriander, and red chili powder. Cook for 1-2 minutes, stirring constantly, until fragrant.",
+      "Stir in the crushed tomatoes. Bring to a simmer, then reduce heat to low, cover, and cook for 15-20 minutes, stirring occasionally, until the sauce thickens and oil separates.",
+      "Return the cooked chicken to the pan. Stir in garam masala and heavy cream. Simmer for another 5 minutes, allowing the flavors to meld and the sauce to warm through.",
+      "Garnish with fresh cilantro and serve hot with basmati rice or naan bread."
     ]
   },
   {
@@ -56,23 +58,24 @@
     "summary": "A quick and healthy dish packed with colorful vegetables and a savory sauce.",
     "image": "https://placehold.co/600x400/3366FF/FFFFFF?text=Vegetable+Stir-fry",
     "ingredients": [
-      "2 cups mixed vegetables (broccoli, carrots, bell peppers, snap peas)",
+      "2 cups mixed vegetables (e.g., broccoli florets, sliced carrots, bell peppers, snap peas, mushrooms)",
       "1 tbsp soy sauce",
-      "1 tbsp oyster sauce (optional)",
+      "1 tbsp oyster sauce (optional, for umami)",
       "1 tsp sesame oil",
       "1 clove garlic, minced",
-      "1/2 inch ginger, grated",
-      "1 tbsp vegetable oil"
+      "1/2 inch fresh ginger, grated",
+      "1 tbsp vegetable oil",
+      "1/4 cup vegetable broth or water"
     ],
     "instructions": [
-      "Prepare all vegetables.",
-      "In a small bowl, whisk together soy sauce, oyster sauce, and sesame oil.",
-      "Heat vegetable oil in a large wok or skillet over high heat.",
-      "Add garlic and ginger; stir-fry for 30 seconds until fragrant.",
-      "Add harder vegetables (broccoli, carrots) and stir-fry for 2-3 minutes.",
-      "Add softer vegetables (bell peppers, snap peas) and stir-fry for another 2 minutes.",
-      "Pour in the sauce and toss to coat. Cook for 1 minute more until heated through.",
-      "Serve immediately with rice or noodles."
+      "Prepare all vegetables: wash, chop, and set aside. Mince garlic and grate ginger.",
+      "In a small bowl, whisk together soy sauce, oyster sauce (if using), sesame oil, and vegetable broth/water. Set aside.",
+      "Heat vegetable oil in a large wok or skillet over high heat until shimmering.",
+      "Add minced garlic and grated ginger; stir-fry for 30 seconds until fragrant.",
+      "Add harder vegetables (e.g., broccoli, carrots, bell peppers) to the wok. Stir-fry for 2-3 minutes until slightly tender-crisp.",
+      "Add softer vegetables (e.g., snap peas, mushrooms) and stir-fry for another 1-2 minutes.",
+      "Pour the prepared sauce mixture over the vegetables and toss quickly to coat. Cook for 1 minute more, allowing the sauce to thicken slightly and vegetables to be heated through.",
+      "Serve immediately with steamed rice or noodles for a complete meal."
     ]
   },
   {
@@ -86,17 +89,18 @@
       "1 tsp salt",
       "1 tbsp white sugar",
       "1 1/4 cups milk",
-      "1 egg",
-      "3 tbsp melted butter"
+      "1 large egg",
+      "3 tbsp unsalted butter, melted"
     ],
     "instructions": [
-      "In a large bowl, whisk together flour, baking powder, salt, and sugar.",
-      "In a separate bowl, whisk together milk, egg, and melted butter.",
-      "Pour the wet ingredients into the dry ingredients and mix until just combined (lumps are okay).",
-      "Heat a lightly oiled griddle or frying pan over medium-high heat.",
-      "Pour 1/4 cup of batter per pancake onto the griddle.",
-      "Cook for 2-3 minutes per side, until golden brown and cooked through.",
-      "Serve hot with your favorite toppings."
+      "In a large bowl, whisk together the dry ingredients: flour, baking powder, salt, and sugar. Ensure there are no large lumps.",
+      "In a separate medium bowl, whisk together the wet ingredients: milk, egg, and melted butter until well combined.",
+      "Pour the wet ingredients into the dry ingredients. Stir until just combined. It's okay if there are still a few lumps; overmixing can make pancakes tough.",
+      "Heat a lightly oiled griddle or large non-stick frying pan over medium-high heat. Test the heat by sprinkling a few drops of water; they should sizzle immediately.",
+      "Pour 1/4 cup of batter for each pancake onto the hot griddle. Leave some space between pancakes.",
+      "Cook for 2-3 minutes per side, or until golden brown and bubbles appear on the surface of the pancake. Flip carefully with a spatula.",
+      "Cook the other side for another 1-2 minutes until golden brown and cooked through.",
+      "Serve hot with your favorite toppings such as syrup, fresh berries, whipped cream, or chocolate chips."
     ]
   }
 ]
